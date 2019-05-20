@@ -3,9 +3,8 @@ const {
     ParameterException
 } = require('../../../core/httpException');
 router.get('/v1/book', async (ctx, next) => {
-    asad
-    // let error = new ParameterException();
-    // throw error;
+    let error = new ParameterException();
+    throw error;
     ctx.body = 'book';
 })
 

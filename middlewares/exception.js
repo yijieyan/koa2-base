@@ -6,21 +6,23 @@ const catchException = async (ctx, next) => {
         await next();
     } catch (err) {
         console.log(err.stack);
+        
         if (err instanceof HttpException) {
             ctx.body = {
                 msg: err.msg,
                 errCode: err.errorCode,
                 requestUrl: `${ctx.method} ${ctx.path}`,
-                code: err.code
             };
+            ctx.status = err.code
         } else {
             ctx.body = {
                 msg: `we made a mistake, O(∩_∩)O哈哈~`,
-                errCode: err.errorCode,
+                errCode: -1,
                 requestUrl: `${ctx.method} ${ctx.path}`,
-                code: 500
             };
+            ctx.status = 500
         }
+       
 
     }
 }
