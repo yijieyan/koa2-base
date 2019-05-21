@@ -6,6 +6,7 @@ const exception = require('./middlewares/exception.js');
 
 const InitManager = require('./core/init.js');
 
+require('./app/model/user.js')
 app.use(exception);
 InitManager.initCore(app);
 
