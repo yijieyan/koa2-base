@@ -1,30 +1,37 @@
 const {
     HttpException
 } = require('../core/httpException');
-const config  = require('../config/config.js');
+const config = require('../config/config.js');
 const catchException = async (ctx, next) => {
     try {
-        await next();
-    } catch (err) {  
-        if (config.environment === 'dev') {
-          console.log(err.stack);
-        }
-        if (err instanceof HttpException) {
+        ctx.success = function (data, code = 0) {
             ctx.body = {
-                msg: err.msg,
-                errCode: err.errorCode,
+                code,
+                data
+            }
+        }
+
+        await next();
+    } catch (err) {
+        if (config.environment === 'dev') {
+            console.log(err.stack);
+        }
+        if (err instanceof Error) {
+            ctx.body = {
+                msg: err.message,
+                code: err.errorCode || -1,
                 requestUrl: `${ctx.method} ${ctx.path}`,
             };
-            ctx.status = err.code
+
         } else {
             ctx.body = {
                 msg: `we made a mistake, O(∩_∩)O哈哈~`,
-                errCode: -1,
+                code: -1,
                 requestUrl: `${ctx.method} ${ctx.path}`,
             };
             ctx.status = 500
         }
-       
+
 
     }
 }
