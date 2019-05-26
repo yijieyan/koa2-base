@@ -4,7 +4,22 @@ const {
   sequelize
 } = require('../../core/db.js');
 class User extends Sequelize.Model {
-
+  static async verifyUser(account, password) {
+    let user = await User.findOne({
+      where: {
+        email: account
+      }
+    })
+    if (!user) {
+      throw new Error(`不存在账户: ${account}`)
+    } else {
+      let isExist = bcryptjs.compareSync(password, user.password);
+      if (!isExist) {
+        throw new Error('密码不正确')
+      }
+      return user;
+    }
+  }
 }
 
 User.init({

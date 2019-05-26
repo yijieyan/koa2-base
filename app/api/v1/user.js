@@ -45,4 +45,32 @@ router.post('/register', async (ctx, next) => {
     }
 });
 
+/**
+ * 登录
+ */
+router.post('/login', async (ctx, next) => {
+    try {
+        // 100:账号密码登录  101:小程序登录  102：手机快速登录
+        let {
+            type,
+            account,
+            password
+        } = ctx.request.body;
+        if (+type === 100) {
+            if (!account || !password) {
+                throw new Error('缺少参数')
+            }
+            let user = await User.verifyUser(account, password)
+            ctx.success(user);
+        } else if (type === 101) {
+
+        } else if (type === 102) {
+
+        } else {
+            throw new Error('非法登录')
+        }
+    } catch (err) {
+        throw err;
+    }
+})
 module.exports = router;
