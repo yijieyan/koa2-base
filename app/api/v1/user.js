@@ -1,5 +1,6 @@
 const Router = require('koa-router');
 const User = require('../../model/user');
+const { generateToken } = require('../../../libs/token.js');
 
 const router = new Router({
     prefix: '/v1/user'
@@ -14,13 +15,13 @@ router.post('/register', async (ctx, next) => {
         let {
             nickname,
             email,
-            password1,
-            password2,
+            password,
+            repeatPassword,
             openid
         } = ctx.request.body;
-        if (!email || !password1 || !password2 || !openid) {
+        if (!email || !password || !repeatPassword || !openid) {
             throw new Error('缺少参数');
-        } else if (password1 !== password2) {
+        } else if (password !== repeatPassword) {
             throw new Error('2次输入的密码不相同');
         } else {
             let user = await User.findOne({
@@ -32,7 +33,7 @@ router.post('/register', async (ctx, next) => {
                 await User.create({
                     nickname,
                     email,
-                    password: password1,
+                    password,
                     openid
                 })
             }
@@ -60,8 +61,11 @@ router.post('/login', async (ctx, next) => {
             if (!account || !password) {
                 throw new Error('缺少参数')
             }
-            let user = await User.verifyUser(account, password)
-            ctx.success(user);
+            const user = await User.verifyUser(account, password)
+            const token = await generateToken(user.id);
+            ctx.success({
+              token
+            });
         } else if (type === 101) {
 
         } else if (type === 102) {

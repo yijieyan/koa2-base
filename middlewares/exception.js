@@ -13,6 +13,8 @@ const catchException = async (ctx, next) => {
 
         await next();
     } catch (err) {
+
+      console.log('xxxxxxxxx:',err)
         if (config.environment === 'dev') {
             console.log(err.stack);
         }
