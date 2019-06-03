@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
-const { secretKey } = require('../config/config.js');
-const generateToken = async (userId,scope = 2) => {
-  const token = await jwt.sign({ userId,scope}, secretKey, {expiresIn:60*60*24});
+const { secretKey, expiresIn } = require('../config/config.js');
+const HttpAuth = require('../middlewares/auth.js');
+const generateToken = async (userId, scope = HttpAuth.USER) => {
+  const token = await jwt.sign({ userId, scope }, secretKey, { expiresIn });
   return token;
 };
-
 
 module.exports = {
   generateToken

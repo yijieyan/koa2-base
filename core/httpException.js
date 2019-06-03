@@ -1,25 +1,23 @@
 class HttpException extends Error {
-    constructor(msg = '服务器异常', errorCode = 10000, code = 400) {
-        super();
-        this.msg = msg;
-        this.errorCode = errorCode;
-        this.code = code;
-    }
+  constructor (msg = '服务器异常', errorCode = 10000, code = 400) {
+    super();
+    this.msg = msg;
+    this.errorCode = errorCode;
+    this.code = code;
+  }
 }
 
-
 class ParameterException extends HttpException {
-    constructor(msg = '参数异常', errorCode = 10000) {
-        super();
-        this.code = 400;
-        this.msg = msg;
-        this.errorCode = errorCode;
-    }
+  constructor (msg = '参数异常', errorCode = 10000) {
+    super();
+    this.code = 400;
+    this.msg = msg;
+    this.errorCode = errorCode;
+  }
 }
 
 class Success extends HttpException {
- 
-  constructor(msg = 'ok', errorCode = 10001) {
+  constructor (msg = 'ok', errorCode = 10001) {
     super();
     this.code = 201;
     this.msg = msg;
@@ -27,9 +25,8 @@ class Success extends HttpException {
   }
 }
 
-class NotFound extends HttpException{
- 
-  constructor(msg = '资源未找到', errorCode = 10002) {
+class NotFound extends HttpException {
+  constructor (msg = '资源未找到', errorCode = 10002) {
     super();
     this.msg = msg;
     this.errorCode = errorCode;
@@ -37,8 +34,8 @@ class NotFound extends HttpException{
   }
 }
 
-class AuthFailed extends HttpException{
-  constructor(msg = '授权失败',errorCode = 10003){
+class AuthFailed extends HttpException {
+  constructor (msg = '授权失败', errorCode = 10003) {
     super();
     this.msg = msg;
     this.errorCode = errorCode;
@@ -46,9 +43,8 @@ class AuthFailed extends HttpException{
   }
 }
 
-
 class Forbbiden extends HttpException {
-  constructor(msg = '禁止访问', errorCode = 10004) {
+  constructor (msg = '禁止访问', errorCode = 10004) {
     super();
     this.msg = msg;
     this.errorCode = errorCode;
@@ -57,10 +53,10 @@ class Forbbiden extends HttpException {
 }
 
 module.exports = {
-    HttpException,
-    ParameterException,
-    Success,
-    NotFound,
-    AuthFailed,
-    Forbbiden
+  HttpException,
+  ParameterException,
+  Success,
+  NotFound,
+  AuthFailed,
+  Forbbiden
 };
