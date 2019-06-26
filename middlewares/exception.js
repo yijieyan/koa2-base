@@ -1,7 +1,3 @@
-const {
-  HttpException
-} = require('../core/httpException');
-const config = require('../config/config.js');
 const catchException = async (ctx, next) => {
   try {
     ctx.success = function (data, code = 0) {
@@ -13,12 +9,12 @@ const catchException = async (ctx, next) => {
 
     await next();
   } catch (err) {
-    if (config.environment === 'dev') {
+    if (process.NODE_ENV === 'development') {
       console.log(err.stack);
     }
     if (err instanceof Error) {
       ctx.body = {
-        msg: err.message,
+        msg: err.errors || err.message,
         code: err.errorCode || -1,
         requestUrl: `${ctx.method} ${ctx.path}`
       };

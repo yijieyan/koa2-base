@@ -2,16 +2,26 @@ const Sequelize = require('sequelize');
 const bcryptjs = require('bcryptjs');
 const {
   sequelize
-} = require('../../core/db.js');
+} = require('../../libs/db.js');
 class User extends Sequelize.Model {
-  static async verifyUser (account, password) {
-    let user = await User.findOne({
-      where: {
-        email: account
-      }
-    });
+  static async verifyUser (email = '', password = '', openId = '') {
+    let user = '';
+    if (email) {
+      user = await User.findOne({
+        where: {
+          email
+        }
+      });
+    } else if (openId) {
+      user = await User.findOne({
+        where: {
+          openid: openId
+        }
+      });
+    }
+
     if (!user) {
-      throw new Error(`不存在账户: ${account}`);
+      throw new Error(`账户不存在`);
     } else {
       let isExist = bcryptjs.compareSync(password, user.password);
       if (!isExist) {

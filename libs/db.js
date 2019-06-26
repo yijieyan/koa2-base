@@ -6,7 +6,7 @@ const sequelize = new Sequelize(dbName, username, password, {
   host,
   port,
   timezone: '+08:00',
-  logging: true,
+  logging: process.env.NODE_ENV === 'development',
   define: {
     paranoid: true,
     underscored: true

@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "start": "npm run dev",
+    "dev": "cross-env NODE_ENV=development nodemon app.js",
+    "pro": "cross-env NODE_ENV=production node app.js",
+    "doc": "apidoc -i app/control/ -o public/apidoc"
   },
   "keywords": [],
   "author": "",
@@ -16,13 +19,17 @@
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
+    "koa-parameter": "^3.0.1",
     "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
     "mysql2": "^1.6.5",
     "nodemon": "^1.19.0",
     "require-directory": "^2.1.1",
     "sequelize": "^5.8.6"
   },
   "devDependencies": {
+    "apidoc": "^0.17.7",
+    "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.17.3",
